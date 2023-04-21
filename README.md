@@ -3,6 +3,11 @@ Github Action to deploy with Wasp to Fly.io
 
 ## How to setup Deploy on Push
 
+### Launch your app locally once ⚠️
+
+- You should first launch your app locally with `wasp deploy fly launch <basename> <region>`.
+- After your app is launched, make sure to commit the `fly-server.toml` and `fly-client.toml` files.
+
 ### Get your API token from Fly.io
 
 - Login with Fly.io and go here: https://fly.io/user/personal_access_tokens
@@ -33,4 +38,4 @@ jobs:
           fly-token: ${{ secrets.FLY_TOKEN }}
 ```
 
-Notice that we are using the `secrets.FLY_TOKEN` so the app knows to deploy.
+Notice that we are using the `secrets.FLY_TOKEN` so Wasp knows how to deploy.
