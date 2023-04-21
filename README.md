@@ -1,4 +1,4 @@
-# deploy-action
+# deploy-action 🚀
 Github Action to deploy with Wasp to Fly.io
 
 Create a file called `deploy.yml` in `.github/workflows` folder in your repo with this content:
