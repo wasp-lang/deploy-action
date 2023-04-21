@@ -8,13 +8,11 @@ runs:
   using: "composite"
   steps:
     - uses: actions/checkout@v3
-      shell: bash
     - name: Install Wasp
-      run: curl -sSL https://get.wasp-lang.dev/installer.sh | sh
       shell: bash
+      run: curl -sSL https://get.wasp-lang.dev/installer.sh | sh
     - name: Install Flyctl
       uses: superfly/flyctl-actions/setup-flyctl@master
-      shell: bash
     - name: Deploy
       run: wasp deploy fly deploy
       shell: bash
