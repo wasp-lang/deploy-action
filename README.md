@@ -5,11 +5,12 @@ Github Action to deploy with Wasp to Fly.io
 
 ### Get your API token from Fly.io
 
-Login with Fly.io and go here: https://fly.io/user/personal_access_tokens
+- Login with Fly.io and go here: https://fly.io/user/personal_access_tokens
+- Click `Create token` and copy that value.
 
 ### Add the token as a secret
 
-Add your Fly.io token as a repository secret e.g. `FLY_TOKEN`
+Add your Fly.io token as a repository secret e.g. calling it `FLY_TOKEN`
 
 Read more about how to do it: https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository
 
@@ -31,3 +32,5 @@ jobs:
         with:
           fly-token: ${{ secrets.FLY_TOKEN }}
 ```
+
+Notice that we are using the `secrets.FLY_TOKEN` so the app knows to deploy.
