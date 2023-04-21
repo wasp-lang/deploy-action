@@ -1,0 +1,22 @@
+name: 'Wasp Deploy'
+description: 'Deploy with Wasp to Fly.io'
+inputs:
+  fly-token: 
+    description: 'Fly.io API token'
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v3
+      shell: bash
+    - name: Install Wasp
+      run: curl -sSL https://get.wasp-lang.dev/installer.sh | sh
+      shell: bash
+    - name: Install Flyctl
+      uses: superfly/flyctl-actions/setup-flyctl@master
+      shell: bash
+    - name: Deploy
+      run: wasp deploy fly deploy
+      shell: bash
+      env:
+        FLY_API_TOKEN: ${{ inputs.fly-token }}
