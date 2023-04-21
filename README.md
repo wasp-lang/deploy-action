@@ -1,6 +1,19 @@
 # deploy-action 🚀
 Github Action to deploy with Wasp to Fly.io
 
+## How to setup Deploy on Push
+
+### Get your API token from Fly.io
+
+Login with Fly.io and go here: https://fly.io/user/personal_access_tokens
+
+### Add the token as a secret
+
+Add your Fly.io token as a repository secret e.g. `FLY_TOKEN`
+
+Read more about how to do it: https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository
+
+### Add a Github Action
 Create a file called `deploy.yml` in `.github/workflows` folder in your repo with this content:
 ```yml
 name: Deploy to Fly
