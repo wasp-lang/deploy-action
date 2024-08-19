@@ -19,10 +19,11 @@ Add your Fly.io token as a repository secret e.g. calling it `FLY_TOKEN`
 
 Read more about how to do it: https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository
 
-### Define a custom server URL
-If you've add a custom domain to your server you can define it as a repository secret `SERVER_URL`. When you don't define a server URL, wasp might default/override to using the `<app-name>-server.fly.dev` address for the server. 
+### Setting a Custom Server URL
 
-Read more about how to do it: https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository
+If you have configured a custom domain for your server, you can specify it as a repository secret named `SERVER_URL`. If this is not defined, Wasp will default to using the `<app-name>-server.fly.dev` address.
+
+For detailed instructions on setting up repository secrets, visit: [GitHub Docs: Creating Encrypted Secrets for a Repository](https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository).
 
 ### Add a Github Action
 Create a file called `deploy.yml` in `.github/workflows` folder in your repo with this content:
