@@ -4,17 +4,25 @@ inputs:
   fly-token: 
     description: 'Fly.io API token'
     required: true
+  server-url:
+    description: 'Server URL for the React app'
+    required: false
 runs:
   using: "composite"
   steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Install Wasp
       shell: bash
       run: curl -sSL https://get.wasp-lang.dev/installer.sh | sh
     - name: Install Flyctl
       uses: superfly/flyctl-actions/setup-flyctl@master
     - name: Deploy
-      run: wasp deploy fly deploy
+      run: |
+        if [ -n "${{ inputs.server-url }}" ]; then
+          REACT_APP_API_URL=${{ inputs.server-url }} wasp deploy fly deploy
+        else
+          wasp deploy fly deploy
+        fi
       shell: bash
       env:
         FLY_API_TOKEN: ${{ inputs.fly-token }}
