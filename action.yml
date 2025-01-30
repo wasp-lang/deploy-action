@@ -1,11 +1,14 @@
-name: 'Wasp Deploy'
-description: 'Deploy with Wasp to Fly.io'
+name: "Wasp Deploy"
+description: "Deploy with Wasp to Fly.io"
 inputs:
-  fly-token: 
-    description: 'Fly.io API token'
+  fly-token:
+    description: "Fly.io API token"
     required: true
   server-url:
-    description: 'Server URL for the React app'
+    description: "Server URL for the React app"
+    required: false
+  wasp-version:
+    description: "Version of Wasp to use for deployment"
     required: false
 runs:
   using: "composite"
@@ -13,7 +16,13 @@ runs:
     - uses: actions/checkout@v4
     - name: Install Wasp
       shell: bash
-      run: curl -sSL https://get.wasp-lang.dev/installer.sh | sh
+      run: |
+        VERSION_PARAM=""
+        if [ -n "${{ inputs.wasp-version }}" ]; then
+          VERSION_PARAM="-v ${{ inputs.wasp-version }}"
+        fi
+        curl -sSL https://get.wasp-lang.dev/installer.sh | sh -s -- $VERSION_PARAM
+
     - name: Install Flyctl
       uses: superfly/flyctl-actions/setup-flyctl@master
     - name: Deploy
