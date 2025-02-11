@@ -21,7 +21,7 @@ runs:
         if [ -n "${{ inputs.wasp-version }}" ]; then
           VERSION_PARAM="-v ${{ inputs.wasp-version }}"
         fi
-        curl -sSL https://get.wasp-lang.dev/installer.sh | sh -s -- $VERSION_PARAM
+        curl -sSL https://get.wasp.sh/installer.sh | sh -s -- $VERSION_PARAM
 
     - name: Install Flyctl
       uses: superfly/flyctl-actions/setup-flyctl@master
