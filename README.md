@@ -29,6 +29,10 @@ For detailed instructions on setting up repository secrets, visit: [GitHub Docs:
 
 You can specify the version of Wasp to use for deployment by setting the `wasp-version` input. If this is not defined, Wasp will default to using the latest version.
 
+### Setting a Working Directory
+
+You can specify the working directory for Wasp to deploy from by setting the `working-dir` input. If this is not defined, Wasp will default to using the current/default directory.
+
 ### Add the Action to your repo
 
 Create a file called `deploy.yml` in `.github/workflows` folder in your repo with this content:
@@ -53,6 +57,8 @@ jobs:
           server-url: ${{ secrets.SERVER_URL }}
           # Optional: Set the Wasp version to use, defaults to latest
           wasp-version: "0.16.0"
+          # Optional: Set the working directory to deploy from
+          working-dir: "app"
 ```
 
 Notice that we are using the `secrets.FLY_TOKEN` so Wasp knows how to deploy.
