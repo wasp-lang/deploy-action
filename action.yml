@@ -10,6 +10,9 @@ inputs:
   wasp-version:
     description: "Version of Wasp to use for deployment"
     required: false
+  working-dir:
+    description: "Directory to deploy from"
+    required: false
 runs:
   using: "composite"
   steps:
@@ -27,6 +30,9 @@ runs:
       uses: superfly/flyctl-actions/setup-flyctl@master
     - name: Deploy
       run: |
+        if [ -n "${{ inputs.working-dir }}" ]; then
+          cd ${{ inputs.working-dir }}
+        fi
         if [ -n "${{ inputs.server-url }}" ]; then
           REACT_APP_API_URL=${{ inputs.server-url }} wasp deploy fly deploy
         else
