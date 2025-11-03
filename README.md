@@ -30,8 +30,8 @@ For detailed instructions on setting up repository secrets, visit: [GitHub Docs:
 
 - Prerequisites: Run `wasp deploy fly launch <basename> <region>` locally first
 - Commit the generated `fly-server.toml` and `fly-client.toml` files to repository
-- Get Fly.io API token from https://fly.io/user/personal_access_tokens
-- Add token as repository secret called `FLY_TOKEN`
+- Add Github secrets:
+  - [Get Fly.io API token](https://fly.io/user/personal_access_tokens) and add it as repository secret called `FLY_TOKEN`
 
 ### Example
 
@@ -58,14 +58,12 @@ jobs:
 
 ## Deploying to Railway
 
-- Prerequisites: Run `wasp deploy railway launch <project-name>` locally first
-- No configuration files to commit (Railway stores config on platform)
-- Project name MUST be max 25 characters
-- Get a Railway **project token**
-- Add token as repository secret called `RAILWAY_TOKEN`
-- Add Railway workspace ID as repository secret called `RAILWAY_WORKSPACE_ID` (optional, needed for multi-workspace accounts)
+### Requirements
 
-### Getting the Railway Token
+- Prerequisites: Run `wasp deploy railway launch <project-name>` locally first
+- Add Github secrets as below:
+  - Get a Railway **project token** and add it as repository secret called `RAILWAY_TOKEN`
+  - Add Railway workspace ID as repository secret called `RAILWAY_WORKSPACE_ID` (optional, needed for multi-workspace accounts)
 
 ### Example
 
