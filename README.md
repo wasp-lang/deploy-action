@@ -9,6 +9,7 @@ Read more on each platform in our [docs](https://wasp.sh/docs/deployment/deploym
 ### General
 
 - `platform` (required): 'fly' or 'railway'
+- `node-version` (optional): Node.js version to use, defaults to '22'
 - `server-url` (optional): If you have configured a custom domain for your server, provide its URL here. If this is not defined, Wasp will default to using the deployment URL provided by the platform.
 - `wasp-version` (optional): Specific Wasp version to use, defaults to latest
 
@@ -52,6 +53,7 @@ jobs:
         with:
           platform: fly
           fly-token: ${{ secrets.FLY_TOKEN }}
+          node-version: "22" # Optional, defaults to 22
           server-url: ${{ secrets.SERVER_URL }} # Optional
           wasp-version: "0.18.0" # Optional
 ```

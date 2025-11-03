@@ -22,10 +22,19 @@ inputs:
   wasp-version:
     description: "Version of Wasp to use for deployment"
     required: false
+  node-version:
+    description: "Node.js version to use"
+    required: false
+    default: "22"
 runs:
   using: "composite"
   steps:
     - uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ inputs.node-version }}
 
     - name: Install Wasp
       shell: bash
