@@ -72,4 +72,4 @@ runs:
       shell: bash
       run: wasp deploy railway deploy "${{ inputs.project-name }}"
       env:
-        RAILWAY_API_TOKEN: ${{ inputs.railway-token }}
+        RAILWAY_TOKEN: ${{ inputs.railway-token }}
