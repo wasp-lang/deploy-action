@@ -1,9 +1,21 @@
 name: "Wasp Deploy"
-description: "Deploy with Wasp to Fly.io"
+description: "Deploy with Wasp to Fly.io or Railway"
 inputs:
-  fly-token:
-    description: "Fly.io API token"
+  platform:
+    description: "Deployment platform: 'fly' or 'railway'"
     required: true
+  fly-token:
+    description: "Fly.io API token (required when platform is 'fly')"
+    required: false
+  railway-token:
+    description: "Railway API token (required when platform is 'railway')"
+    required: false
+  project-name:
+    description: "Project/app name (required for Railway, max 25 characters)"
+    required: false
+  railway-workspace:
+    description: "Railway workspace ID (optional, for multi-workspace accounts)"
+    required: false
   server-url:
     description: "Server URL for the React app"
     required: false
@@ -14,6 +26,7 @@ runs:
   using: "composite"
   steps:
     - uses: actions/checkout@v4
+
     - name: Install Wasp
       shell: bash
       run: |
@@ -24,14 +37,48 @@ runs:
         curl -sSL https://get.wasp.sh/installer.sh | sh -s -- $VERSION_PARAM
 
     - name: Install Flyctl
+      if: ${{ inputs.platform == 'fly' }}
       uses: superfly/flyctl-actions/setup-flyctl@master
-    - name: Deploy
+
+    - name: Install Railway CLI
+      if: ${{ inputs.platform == 'railway' }}
+      shell: bash
       run: |
-        if [ -n "${{ inputs.server-url }}" ]; then
-          REACT_APP_API_URL=${{ inputs.server-url }} wasp deploy fly deploy
+        npm install -g @railway/cli
+        railway --version
+
+    - name: Deploy to Fly.io
+      if: ${{ inputs.platform == 'fly' }}
+      shell: bash
+      run: |
+        SERVER_URL="${{ inputs.server-url }}"
+        if [ -n "$SERVER_URL" ]; then
+          REACT_APP_API_URL="$SERVER_URL" wasp deploy fly deploy
         else
           wasp deploy fly deploy
         fi
-      shell: bash
       env:
         FLY_API_TOKEN: ${{ inputs.fly-token }}
+
+    - name: Deploy to Railway
+      if: ${{ inputs.platform == 'railway' }}
+      shell: bash
+      run: |
+        # For Railway accounts with multiple workspaces, specify which one to use
+        WORKSPACE_ARG=""
+        RAILWAY_WORKSPACE="${{ inputs.railway-workspace }}"
+        if [ -n "$RAILWAY_WORKSPACE" ]; then
+          WORKSPACE_ARG="--workspace $RAILWAY_WORKSPACE"
+        fi
+
+        SERVER_URL="${{ inputs.server-url }}"
+        PROJECT_NAME="${{ inputs.project-name }}"
+
+        # Note: WORKSPACE_ARG is intentionally unquoted to allow optional flag expansion
+        if [ -n "$SERVER_URL" ]; then
+          REACT_APP_API_URL="$SERVER_URL" wasp deploy railway deploy "$PROJECT_NAME" $WORKSPACE_ARG
+        else
+          wasp deploy railway deploy "$PROJECT_NAME" $WORKSPACE_ARG
+        fi
+      env:
+        RAILWAY_API_TOKEN: ${{ inputs.railway-token }}

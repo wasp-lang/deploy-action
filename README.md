@@ -1,45 +1,28 @@
 # deploy-action 🚀
 
-Github Action to deploy with Wasp to Fly.io
+<!-- TODO: Update intro to mention both Fly.io and Railway support -->
 
-## How to setup Deploy on Push
+<!-- TODO: Add platform comparison table showing key differences between Fly.io and Railway -->
 
-### Launch your app locally once ⚠️
+## Deploying to Fly.io
 
-- You should first launch your app locally with `wasp deploy fly launch <basename> <region>`.
-- After your app is launched, make sure to commit the `fly-server.toml` and `fly-client.toml` files.
+<!-- TODO: Explain Fly.io setup:
+- Prerequisites: Run `wasp deploy fly launch <basename> <region>` locally first
+- Commit the generated `fly-server.toml` and `fly-client.toml` files to repository
+- Get Fly.io API token from https://fly.io/user/personal_access_tokens
+- Add token as repository secret called FLY_TOKEN
+- Link to GitHub docs on creating secrets
+-->
 
-### Action Inputs
-
-#### Get your API token from Fly.io
-
-- Login with Fly.io and go here: https://fly.io/user/personal_access_tokens
-- Click `Create token` and copy that value.
-- Add your Fly.io token as a repository secret e.g. calling it `FLY_TOKEN`
-
-  Read more about how to do it: https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository
-
-#### Setting a Custom Server URL
-
-If you have configured a custom domain for your server, you can specify it as a repository secret named `SERVER_URL`. If this is not defined, Wasp will default to using the `<app-name>-server.fly.dev` address.
-
-For detailed instructions on setting up repository secrets, visit: [GitHub Docs: Creating Encrypted Secrets for a Repository](https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository).
-
-#### Setting a Wasp Version
-
-You can specify the version of Wasp to use for deployment by setting the `wasp-version` input. If this is not defined, Wasp will default to using the latest version.
-
-### Add the Action to your repo
-
-Create a file called `deploy.yml` in `.github/workflows` folder in your repo with this content:
-
+<!-- TODO: Show example workflow for Fly.io deployment:
 ```yml
-name: Deploy to Fly
+name: Deploy to Fly.io
 
 on:
   push:
     branches:
       - "main"
+
 jobs:
   deploy:
     name: Deploy with Wasp
@@ -47,12 +30,66 @@ jobs:
     steps:
       - uses: wasp-lang/deploy-action@main
         with:
-          # Required: Fly.io API token
+          platform: fly
           fly-token: ${{ secrets.FLY_TOKEN }}
-          # Optional: Override the default Fly server URL with a custom domain
-          server-url: ${{ secrets.SERVER_URL }}
-          # Optional: Set the Wasp version to use, defaults to latest
-          wasp-version: "0.16.0"
+          server-url: ${{ secrets.SERVER_URL }}  # Optional
+          wasp-version: "0.16.0"                 # Optional
 ```
+-->
 
-Notice that we are using the `secrets.FLY_TOKEN` so Wasp knows how to deploy.
+## Deploying to Railway
+
+<!-- TODO: Explain Railway setup:
+- Prerequisites: Run `wasp deploy railway launch <project-name>` locally first
+- No configuration files to commit (Railway stores config on platform)
+- Project name MUST be max 25 characters
+- Get Railway token from Project Settings → Tokens (project token recommended)
+- Add token as repository secret called RAILWAY_TOKEN
+- Optional: Workspace ID for multi-workspace accounts
+- Link to GitHub docs on creating secrets
+-->
+
+<!-- TODO: Show example workflow for Railway deployment:
+```yml
+name: Deploy to Railway
+
+on:
+  push:
+    branches:
+      - "main"
+
+jobs:
+  deploy:
+    name: Deploy with Wasp
+    runs-on: ubuntu-latest
+    steps:
+      - uses: wasp-lang/deploy-action@main
+        with:
+          platform: railway
+          railway-token: ${{ secrets.RAILWAY_TOKEN }}
+          project-name: my-app                       # Required (max 25 chars)
+          railway-workspace: ${{ secrets.RAILWAY_WORKSPACE }}  # Optional
+          server-url: ${{ secrets.SERVER_URL }}      # Optional
+          wasp-version: "0.16.0"                     # Optional
+```
+-->
+
+## Action Inputs
+
+<!-- TODO: Document all inputs:
+- platform (required): 'fly' or 'railway'
+- fly-token (required for fly): Fly.io API token
+- railway-token (required for railway): Railway API token
+- project-name (required for railway): Project name, max 25 characters
+- railway-workspace (optional): Railway workspace ID for multi-workspace accounts
+- server-url (optional): Custom server URL for the React app
+- wasp-version (optional): Specific Wasp version to use, defaults to latest
+-->
+
+## Breaking Changes
+
+<!-- TODO: Add breaking change notice:
+- Existing users MUST add `platform: fly` to their workflow to continue working
+- The `fly-token` input is no longer required by default (only when platform is 'fly')
+- Show before/after example
+-->
