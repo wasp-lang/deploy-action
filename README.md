@@ -21,7 +21,6 @@ Read more on each platform in our [docs](https://wasp.sh/docs/deployment/deploym
 
 - `railway-token` (required for Railway): Railway API token
 - `project-name` (required for Railway): Project name, max 25 characters
-- `railway-workspace-id` (optional): Railway workspace ID for multi-workspace accounts
 
 ## Github Action Secrets
 
@@ -63,9 +62,8 @@ jobs:
 ### Requirements
 
 - Prerequisites: Run `wasp deploy railway launch <project-name>` locally first
-- Add Github secrets as below:
+- Add Github secrets:
   - Get a Railway **project token** and add it as repository secret called `RAILWAY_TOKEN`
-  - Add Railway workspace ID as repository secret called `RAILWAY_WORKSPACE_ID` (optional, needed for multi-workspace accounts)
 
 ### Example
 
@@ -87,7 +85,6 @@ jobs:
           platform: railway
           railway-token: ${{ secrets.RAILWAY_TOKEN }}
           project-name: my-app # Required, max 25 characters
-          railway-workspace-id: ${{ secrets.RAILWAY_WORKSPACE_ID }} # Optional
           server-url: ${{ secrets.SERVER_URL }} # Optional
           wasp-version: "0.18.0" # Optional
 ```

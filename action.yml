@@ -13,9 +13,6 @@ inputs:
   project-name:
     description: "Project/app name (required for Railway, max 25 characters)"
     required: false
-  railway-workspace-id:
-    description: "Railway workspace ID (optional, for multi-workspace accounts)"
-    required: false
   server-url:
     description: "Server URL used by the React app"
     required: false
@@ -73,16 +70,6 @@ runs:
     - name: Deploy to Railway
       if: ${{ inputs.platform == 'railway' }}
       shell: bash
-      run: |
-        PROJECT_NAME="${{ inputs.project-name }}"
-
-        # For Railway accounts with multiple workspaces, specify which one to use
-        WORKSPACE_ARG=""
-        if [ -n "${{ inputs.railway-workspace-id }}" ]; then
-          WORKSPACE_ARG="--workspace ${{ inputs.railway-workspace-id }}"
-        fi
-
-        # Note: WORKSPACE_ARG is intentionally unquoted to allow optional flag expansion
-        wasp deploy railway deploy "$PROJECT_NAME" $WORKSPACE_ARG
+      run: wasp deploy railway deploy "${{ inputs.project-name }}"
       env:
         RAILWAY_API_TOKEN: ${{ inputs.railway-token }}
