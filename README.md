@@ -1,20 +1,40 @@
 # deploy-action 🚀
 
-<!-- TODO: Update intro to mention both Fly.io and Railway support -->
+Github Action to deploy Wasp apps to Fly.io or Railway.
 
-<!-- TODO: Add platform comparison table showing key differences between Fly.io and Railway -->
+Read more on each platform in our [docs](https://wasp.sh/docs/deployment/deployment-methods/wasp-deploy/overview).
+
+## Action Inputs
+
+### General
+
+- `platform` (required): 'fly' or 'railway'
+- `server-url` (optional): If you have configured a custom domain for your server, provide its URL here. If this is not defined, Wasp will default to using the deployment URL provided by the platform.
+- `wasp-version` (optional): Specific Wasp version to use, defaults to latest
+
+### Fly.io Specific
+
+- `fly-token` (required for Fly): Fly.io API token
+
+### Railway Specific
+
+- `railway-token` (required for Railway): Railway API token
+- `project-name` (required for Railway): Project name, max 25 characters
+- `railway-workspace-id` (optional): Railway workspace ID for multi-workspace accounts
+
+## Github Action Secrets
+
+For detailed instructions on setting up repository secrets, visit: [GitHub Docs: Creating Encrypted Secrets for a Repository](https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository).
 
 ## Deploying to Fly.io
 
-<!-- TODO: Explain Fly.io setup:
 - Prerequisites: Run `wasp deploy fly launch <basename> <region>` locally first
 - Commit the generated `fly-server.toml` and `fly-client.toml` files to repository
 - Get Fly.io API token from https://fly.io/user/personal_access_tokens
-- Add token as repository secret called FLY_TOKEN
-- Link to GitHub docs on creating secrets
--->
+- Add token as repository secret called `FLY_TOKEN`
 
-<!-- TODO: Show example workflow for Fly.io deployment:
+### Example
+
 ```yml
 name: Deploy to Fly.io
 
@@ -32,24 +52,23 @@ jobs:
         with:
           platform: fly
           fly-token: ${{ secrets.FLY_TOKEN }}
-          server-url: ${{ secrets.SERVER_URL }}  # Optional
-          wasp-version: "0.16.0"                 # Optional
+          server-url: ${{ secrets.SERVER_URL }} # Optional
+          wasp-version: "0.18.0" # Optional
 ```
--->
 
 ## Deploying to Railway
 
-<!-- TODO: Explain Railway setup:
 - Prerequisites: Run `wasp deploy railway launch <project-name>` locally first
 - No configuration files to commit (Railway stores config on platform)
 - Project name MUST be max 25 characters
-- Get Railway token from Project Settings → Tokens (project token recommended)
-- Add token as repository secret called RAILWAY_TOKEN
-- Optional: Workspace ID for multi-workspace accounts
-- Link to GitHub docs on creating secrets
--->
+- Get a Railway **project token**
+- Add token as repository secret called `RAILWAY_TOKEN`
+- Add Railway workspace ID as repository secret called `RAILWAY_WORKSPACE_ID` (optional, needed for multi-workspace accounts)
 
-<!-- TODO: Show example workflow for Railway deployment:
+### Getting the Railway Token
+
+### Example
+
 ```yml
 name: Deploy to Railway
 
@@ -67,29 +86,8 @@ jobs:
         with:
           platform: railway
           railway-token: ${{ secrets.RAILWAY_TOKEN }}
-          project-name: my-app                       # Required (max 25 chars)
-          railway-workspace: ${{ secrets.RAILWAY_WORKSPACE }}  # Optional
-          server-url: ${{ secrets.SERVER_URL }}      # Optional
-          wasp-version: "0.16.0"                     # Optional
+          project-name: my-app # Required, max 25 characters
+          railway-workspace-id: ${{ secrets.RAILWAY_WORKSPACE_ID }} # Optional
+          server-url: ${{ secrets.SERVER_URL }} # Optional
+          wasp-version: "0.18.0" # Optional
 ```
--->
-
-## Action Inputs
-
-<!-- TODO: Document all inputs:
-- platform (required): 'fly' or 'railway'
-- fly-token (required for fly): Fly.io API token
-- railway-token (required for railway): Railway API token
-- project-name (required for railway): Project name, max 25 characters
-- railway-workspace (optional): Railway workspace ID for multi-workspace accounts
-- server-url (optional): Custom server URL for the React app
-- wasp-version (optional): Specific Wasp version to use, defaults to latest
--->
-
-## Breaking Changes
-
-<!-- TODO: Add breaking change notice:
-- Existing users MUST add `platform: fly` to their workflow to continue working
-- The `fly-token` input is no longer required by default (only when platform is 'fly')
-- Show before/after example
--->

@@ -13,11 +13,11 @@ inputs:
   project-name:
     description: "Project/app name (required for Railway, max 25 characters)"
     required: false
-  railway-workspace:
+  railway-workspace-id:
     description: "Railway workspace ID (optional, for multi-workspace accounts)"
     required: false
   server-url:
-    description: "Server URL for the React app"
+    description: "Server URL used by the React app"
     required: false
   wasp-version:
     description: "Version of Wasp to use for deployment"
@@ -66,7 +66,7 @@ runs:
       run: |
         # For Railway accounts with multiple workspaces, specify which one to use
         WORKSPACE_ARG=""
-        RAILWAY_WORKSPACE="${{ inputs.railway-workspace }}"
+        RAILWAY_WORKSPACE="${{ inputs.railway-workspace-id }}"
         if [ -n "$RAILWAY_WORKSPACE" ]; then
           WORKSPACE_ARG="--workspace $RAILWAY_WORKSPACE"
         fi
