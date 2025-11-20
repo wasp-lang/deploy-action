@@ -14,6 +14,10 @@ runs:
   using: "composite"
   steps:
     - uses: actions/checkout@v4
+    - name: Deprecation Warning
+      shell: bash
+      run: |
+        echo "::warning::⚠️  This action is deprecated and will become outdated over time. We recommend switching to directly installing Wasp and running 'wasp deploy' in your workflow. See https://github.com/wasp-lang/deploy-action#action-deprecated for the recommended approach."
     - name: Install Wasp
       shell: bash
       run: |
