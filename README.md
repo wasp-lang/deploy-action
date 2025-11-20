@@ -1,3 +1,44 @@
+# Action deprecated
+
+> [!WARNING] 
+> This action is deprecated and will become oudated over time. We recommend switching your workflows to directly installing Wasp and running the `wasp deploy` command.
+
+Example workflow for deploying the Wasp application to Fly using `wasp deploy`:
+
+```yaml
+name: Wasp Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Deploy to Fly.io
+    runs-on: ubuntu-latest
+    env:
+      # You must add FLY_API_TOKEN to your Repository Secrets
+      FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+
+      - name: Install Wasp
+        run: curl -sSL https://get.wasp.sh/installer.sh | sh -s -- -v 0.19.0
+
+      - name: Install Flyctl
+        uses: superfly/flyctl-actions/setup-flyctl@master
+
+      - name: Deploy
+        run: wasp deploy fly deploy
+```
+
 # deploy-action 🚀
 
 Github Action to deploy with Wasp to Fly.io
