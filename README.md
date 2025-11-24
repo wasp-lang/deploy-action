@@ -39,6 +39,8 @@ jobs:
         run: wasp deploy fly deploy
 ```
 
+Read more in the docs: https://wasp.sh/docs/deployment/deployment-methods/wasp-deploy/ci-cd
+
 # deploy-action 🚀
 
 Github Action to deploy with Wasp to Fly.io
